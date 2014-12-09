@@ -16,3 +16,43 @@
 (defn -main []
   (println (make-terrain 24 16)))
 
+;----------------------------
+
+(def nutrients [:salt :nitrogen])
+
+(defn rand-nutrient []
+  (rand-nth nutrients))
+
+(defn rand-nutrients []
+  (let [n (rand-int (count nutrients))]
+    (repeatedly n rand-nutrient)))
+
+(defn make-world [width height]
+  (for [_ (range width)]
+    (for [_ (range height)]
+      {:material (rand-material)
+       :nutrients (rand-nutrients)
+       :organisms []})))
+
+;----------------------------
+
+(def vivogenesis-chance 0.05)
+
+(defn vivogenesis? []
+  (< (rand) vivogenesis-chance))
+
+(def material->organism
+  {:dirt :grass
+   :water :algae})
+
+(defn step-tile [{:keys [material nutrients organisms] :as tile}]
+  (if (and (not (empty? nutrients))
+           (vivogenesis?))
+    (assoc tile
+           :nutrients (pop nutrients)
+           :organisms (conj organisms (material->organism material))))
+    tile)
+
+(defn step-world [terra]
+  (map step-tile terra))
+
