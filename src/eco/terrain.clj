@@ -38,24 +38,45 @@
          :organisms []}))))
 
 
-;;;; Stepping
+;;; Organisms
 
 (def vivogenesis-chance 0.05)
+(def death-chance 0.02)
 
 (defn vivogenesis? []
   (< (rand) vivogenesis-chance))
+
+(defn death? []
+  (< (rand) death-chance))
 
 (def material->organism
   {:dirt :grass
    :water :algae})
 
-(defn step-tile [{:keys [material nutrients organisms] :as tile}]
+(defn rand-organism [tile]
+  (material->organism (:material tile)))
+
+
+;;;; Stepping
+
+(defn step-organism [org]
+  (if (death?) nil org))
+
+(defn handle-tile-births [{:keys [material nutrients organisms] :as tile}]
   (if (and (not (empty? nutrients))
            (vivogenesis?))
     (assoc tile
            :nutrients (rest nutrients)
-           :organisms (conj organisms (material->organism material)))
+           :organisms (conj organisms (rand-organism tile)))
     tile))
+
+(defn handle-tile-aging [{:keys [material nutrients organisms] :as tile}]
+  (assoc tile :organisms (remove nil? (map step-organism organisms))))
+
+(defn step-tile [tile]
+  (-> tile
+      (handle-tile-births)
+      (handle-tile-aging)))
 
 (defn step-world [world]
   (for [col world]
