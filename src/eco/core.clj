@@ -10,6 +10,7 @@
   ; Set frame rate to 30 frames per second.
   (q/frame-rate 30)
   (q/background 0)
+  (q/ellipse-mode :corner)
   ; Set color mode to HSB (HSV) instead of default RGB.
   (q/color-mode :hsb 360 100 100 1.0)
   ; setup function returns initial state. It contains

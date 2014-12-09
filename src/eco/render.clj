@@ -1,8 +1,8 @@
 (ns eco.render
   (:require [quil.core :as q]
-            [eco.terrain :refer [make-terrain]]))
+            [eco.terrain :refer [make-world]]))
 
-;;;; Terrain rendering variables
+;;;; Window variables
 
 (def tw 4)
 (def th 4)
@@ -13,12 +13,29 @@
 (def window-w (* tw map-width))
 (def window-h (* th map-height))
 
+;;;; Nutrient variables
+
+(def nd 2)
+
+;;;; Organism variables
+
+(def od 3)
+
+;;;; Other variables
+
 (def color-map {;All colors are in [h s b] or [h s b a]
-                
+        
+                ;;Neutral
+                :neutral [0 0 100 0.0]
+
                 ;;Materials                
                 :dirt  [36 50 50] 
                 :water [240 80 100]
                 
+                ;;Nutrients
+                :nitrogen [240 100 90 0.8]
+                :salt     [0 0 90 0.8]
+
                 ;;Organisms
                 :grass [99 60 60 0.6]
                 :algae [99 60 60 0.2]
@@ -37,27 +54,44 @@
 
     :else          (conj (color-map material) height)))
 
-  ;(conj (color-map (tile :material)) (max 0.2 (tile :height))))
+(defn render-terrain [ix iy tile]
+  (apply q/fill (terrain-color tile))
+  (q/rect (* tw ix) (* th iy) tw th))
+
+;;;; Nutrient rendering functions
+
+(defn nutrient-color [n]
+  (color-map n))
+
+(defn render-nutrients [ix iy tile]
+  (apply q/fill (color-map :neutral))
+  (doseq [n (tile :nutrients)]
+    (apply q/fill (nutrient-color n))
+    (q/rect (inc (* tw ix)) (inc (* th iy)) nd nd)))
+
+;;;; Organism rendering functions
 
 (defn organism-color
   "Similar to terrain-color.  Adds a color overlay to a tile given
   a specific organism."
 
-  [{:keys [organism] :as tile}]
-  (color-map organism))
+  [o]
 
-(defn render-terrain [ix iy tile]
-  (apply q/fill (terrain-color tile))
-  (q/rect (* tw ix) (* th iy) tw th))
+  (color-map o))
 
 (defn render-organisms [ix iy tile]
-  (q/fill 0 0 100 0.0)
+  (apply q/fill (color-map :neutral))
   (doseq [o (tile :organisms)]
     (apply q/fill (organism-color o))
-    (q/rect (* tw ix) (* th iy) tw th)))
+    (q/ellipse (* tw ix) (* th iy) tw th)))
+
+;;;; Main rendering function - environment
 
 (defn environment [state]
   (doseq [x (range map-width)]
     (doseq [y (range map-height)]
       (render-terrain x y (nth (nth (state :terrain) x) y))
-      (render-organisms x y (nth (nth (state :terrain) x) y)))))
+      (render-nutrients x y (nth (nth (state :terrain) x) y))
+      ;(render-organisms x y (nth (nth (state :terrain) x) y))
+      
+      )))
