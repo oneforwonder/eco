@@ -1,6 +1,10 @@
 (ns eco.terrain
   (:require [quil.core :as q]))
 
+;;;; Variables
+
+(def noise-scale 0.04)
+
 ;;;; Materials
 
 (def materials [:dirt :water])
@@ -31,7 +35,7 @@
 (defn make-world [width height]
   (for [x (range width)]
     (for [y (range height)]
-      (let [z (generate-depth (* 0.01 x) (* 0.01 y))]
+      (let [z (generate-depth (* noise-scale x) (* noise-scale y))]
         {:height z
          :material (if (< z 0.3) :water :dirt)
          :nutrients (rand-nutrients)

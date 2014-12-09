@@ -2,24 +2,26 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]
             
-            [eco.terrain :refer [make-world]]
-            [eco.render :refer [environment map-width map-height]]
+            [eco.terrain :refer [make-world step-world]]
+            [eco.render :as r]
             ))
 
 (defn setup []
   ; Set frame rate to 30 frames per second.
   (q/frame-rate 30)
+  (q/background 0)
+  (q/ellipse-mode :corner)
   ; Set color mode to HSB (HSV) instead of default RGB.
-  ;(q/color-mode :hsb)
+  (q/color-mode :hsb 360 100 100 1.0)
   ; setup function returns initial state. It contains
   ; circle color and position.
   (q/no-stroke)
-  {:terrain (make-world map-width map-height)})
+  {:terrain (make-world r/map-width r/map-height)})
 
 (defn update [state]
   ; Update sketch state by changing circle color and position.
-  {:color (mod (+ (:color state) 0.7) 255)
-   :angle (+ (:angle state) 0.1)})
+  (q/background 0)
+  {:terrain (step-world (state :terrain))})
 
 ;(defn draw [state]
   ;; Clear the sketch by filling it with light-grey color.
@@ -38,13 +40,13 @@
 
 (q/defsketch eco
   :title "This... is Eco."
-  :size [600 600]
+  :size [r/window-w r/window-h]
   ; setup function called only once, during sketch initialization.
   :setup setup
   ; update is called on each iteration before draw is called.
   ; It updates sketch state.
   :update update
-  :draw environment
+  :draw r/environment
   ; This sketch uses functional-mode middleware.
   ; Check quil wiki for more info about middlewares and particularly
   ; fun-mode.
