@@ -33,12 +33,12 @@
                 :water [240 80 100]
                 
                 ;;Nutrients
-                :nitrogen [240 100 90 0.8]
-                :salt     [0 0 90 0.8]
+                :nitrogen [0 100 100 0.8]
+                :salt     [45 100 100 0.8]
 
                 ;;Organisms
-                :grass [99 60 60 0.6]
-                :algae [99 60 60 0.2]
+                :grass [99 80 60 0.6]
+                :algae [99 80 60 0.2]
                 })
 
 ;;;; Terrain rendering functions
@@ -90,8 +90,9 @@
 (defn environment [state]
   (doseq [x (range map-width)]
     (doseq [y (range map-height)]
+
       (render-terrain x y (nth (nth (state :terrain) x) y))
       (render-nutrients x y (nth (nth (state :terrain) x) y))
-      ;(render-organisms x y (nth (nth (state :terrain) x) y))
+      (render-organisms x y (nth (nth (state :terrain) x) y))
       
       )))
