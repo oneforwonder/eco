@@ -2,9 +2,8 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]
             
-            [eco.terrain :refer [make-world step-world]]
-            [eco.render :as r]
-            ))
+            [eco.world :refer [generate-world update-world]]
+            [eco.render :as r]))
 
 (defn setup []
   ; Set frame rate to 30 frames per second.
@@ -16,12 +15,12 @@
   ; setup function returns initial state. It contains
   ; circle color and position.
   (q/no-stroke)
-  {:terrain (make-world r/map-width r/map-height)})
+  (generate-world r/map-width r/map-height))
 
 (defn update [state]
   ; Update sketch state by changing circle color and position.
   (q/background 0)
-  {:terrain (step-world (state :terrain))})
+  (update-world state))
 
 ;(defn draw [state]
   ;; Clear the sketch by filling it with light-grey color.
