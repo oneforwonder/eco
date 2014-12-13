@@ -5,8 +5,8 @@
 
 (def noise-scale 0.04)
 (def terrain-materials [:dirt :water])
-(def terrain-nutrients [:H20 :NH3])
-(def world-nutrients [:O2 :C02])
+(def terrain-nutrients [:H2O :NH3])
+(def world-nutrients [:O2 :CO2])
 (def min-nutrient 20)
 (def max-nutrient 200)
 
@@ -22,7 +22,7 @@
   (let [z (generate-depth x y)]
     {:material (if (< z 0.3) :water :dirt)
      :height z
-     :nutrients {:H20 (rand-nutrient-amount)
+     :nutrients {:H2O (rand-nutrient-amount)
                  :NH3 (rand-nutrient-amount)}}))
 
 (defn generate-terrain [width height]
@@ -48,18 +48,18 @@
 (defn set-combined-nutrients [world coord nutrients]
   (let [combined (merge (get-combined-nutrients) nutrients)]
     (-> world
-      (assoc-in [:air :CO2] (combined :C02))
-      (assoc-in [:air :O2]  (combined :02))
+      (assoc-in [:air :CO2] (combined :CO2))
+      (assoc-in [:air :O2]  (combined :O2))
       (assoc-in [:terrain coord :nutrients :NH3] (combined :NH3))
-      (assoc-in [:terrain coord :nutrients :H20] (combined :H20)))))
+      (assoc-in [:terrain coord :nutrients :H2O] (combined :H2O)))))
 
 (defn update-combined-nutrients [world coord nutrients f]
   (let [nu-fn (fn [n] (if (contains? (set nutrients) n) f identity))]
     (-> world
-      (update-in [:air :CO2] (nu-fn :C02))
-      (update-in [:air :O2]  (nu-fn :02))
+      (update-in [:air :CO2] (nu-fn :CO2))
+      (update-in [:air :O2]  (nu-fn :O2))
       (update-in [:terrain coord :nutrients :NH3] (nu-fn :NH3))
-      (update-in [:terrain coord :nutrients :H20] (nu-fn :H20)))))
+      (update-in [:terrain coord :nutrients :H2O] (nu-fn :H2O)))))
 
 
 ;;;; Update World

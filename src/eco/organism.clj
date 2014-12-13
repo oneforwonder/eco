@@ -84,7 +84,7 @@
         org*      (assoc org :input-storage (map-vals inc i intook))
         org**     (if (< (rand) (org :m-rate)) (dead? (metabolize org*)) (dead? org*))
 
-        world*    (assoc world :organisms (conj organisms org**))]
+        world*    (assoc world :organisms (conj others org**))]
 
     (w/update-combined-nutrients world* [x y] intook dec)))
 

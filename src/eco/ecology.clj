@@ -1,29 +1,28 @@
 (ns eco.ecology)
 
-(def resources [:light
-                :H20 :O2 :CO2 :NH3
+(def resources [:H2O :O2 :CO2 :NH3
                 :carbs :proteins :fats])
 
 (def organisms
   {:plants
-    {:consumes [:H20 :NH3 :CO2]
+    {:consumes [:H2O :NH3 :CO2]
      :produces [:carbs]
      :excretes [:O2]}
 
    :herbivores
-    {:consumes [:carbs :O2 :H20]
+    {:consumes [:carbs :O2 :H2O]
      :produces [:fats :proteins]
-     :excretes [:C02 :NH3]}
+     :excretes [:CO2 :NH3]}
 
   :carnivores
-    {:consumes [:proteins :fats :H20 :O2]
+    {:consumes [:proteins :fats :H2O :O2]
      :produces []
-     :excretes [:C02 :NH3]}
+     :excretes [:CO2 :NH3]}
 
   :decomposers
-    {:consumes [:fats :proteins :carbs :02 :H20]
+    {:consumes [:fats :proteins :carbs :O2 :H2O]
      :produces []
-     :excretes [:C02 :NH3]}})
+     :excretes [:CO2 :NH3]}})
 
 
 ;;;; -----------------------------------------------------
