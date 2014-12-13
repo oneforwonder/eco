@@ -6,7 +6,7 @@
 
 (def organisms
   {:plants
-    {:consumes [:light :H20 :NH3 :CO2]
+    {:consumes [:H20 :NH3 :CO2]
      :produces [:carbs]
      :excretes [:O2]}
 
