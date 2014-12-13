@@ -39,6 +39,29 @@
    :organisms {}})
 
 
+;;;; Get/Set World Conviently
+
+(defn get-combined-nutrients [world coord]
+  (conj (get world :air)
+        (get-in world :terrain coord :nutrients)))
+
+(defn set-combined-nutrients [world coord nutrients]
+  (let [combined (merge (get-combined-nutrients) nutrients)]
+    (-> world
+      (assoc-in [:air :CO2] (combined :C02))
+      (assoc-in [:air :O2]  (combined :02))
+      (assoc-in [:terrain coord :nutrients :NH3] (combined :NH3))
+      (assoc-in [:terrain coord :nutrients :H20] (combined :H20)))))
+
+(defn update-combined-nutrients [world coord nutrients f]
+  (let [nu-fn (fn [n] (if (contains? (set nutrients) n) f identity))]
+    (-> world
+      (update-in [:air :CO2] (nu-fn :C02))
+      (update-in [:air :O2]  (nu-fn :02))
+      (update-in [:terrain coord :nutrients :NH3] (nu-fn :NH3))
+      (update-in [:terrain coord :nutrients :H20] (nu-fn :H20)))))
+
+
 ;;;; Update World
 
 (defn update-time [world]
