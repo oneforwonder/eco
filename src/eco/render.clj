@@ -1,6 +1,5 @@
 (ns eco.render
-  (:require [quil.core :as q]
-            [eco.terrain :refer [make-world]]))
+  (:require [quil.core :as q]))
 
 ;;;; Window variables
 
@@ -87,12 +86,11 @@
 
 ;;;; Main rendering function - environment
 
-(defn environment [state]
-  (doseq [x (range map-width)]
-    (doseq [y (range map-height)]
-
-      (render-terrain x y (nth (nth (state :terrain) x) y))
-      (render-nutrients x y (nth (nth (state :terrain) x) y))
-      (render-organisms x y (nth (nth (state :terrain) x) y))
+(defn environment [{:keys [terrain organisms] :as world}]
+  (doseq [x (range map-width)
+          y (range map-height)]
+    (render-terrain x y (terrain [x y]))
+    ;(render-nutrients x y (nth (nth (state :terrain) x) y))
+    ;(render-organisms x y (nth (nth (state :terrain) x) y))
       
-      )))
+    ))

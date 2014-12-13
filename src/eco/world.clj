@@ -43,7 +43,7 @@
 
 (defn get-combined-nutrients [world coord]
   (conj (get world :air)
-        (get-in world :terrain coord :nutrients)))
+        (get-in world [:terrain coord :nutrients])))
 
 (defn set-combined-nutrients [world coord nutrients]
   (let [combined (merge (get-combined-nutrients) nutrients)]
