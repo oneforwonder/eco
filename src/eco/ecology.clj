@@ -28,33 +28,33 @@
 
 ;;;; -----------------------------------------------------
 
-(def organisms
-  {:contents []
-   :location [:x :y]
-   :state :hungry})
+;(def organisms
+  ;{:contents []
+   ;:location [:x :y]
+   ;:state :hungry})
 
-(defn decompose-tile [tile]
-  (let [in (get-in organisms :decomposers :consumes)
-        out (get-in organisms :decomposers :excretes)]
-    ;TODO
-    ))
-(defn decompose-world [world]
-  (for [row world]
-    (for [tile world]
-      (decompose-tile tile))))
+;(defn decompose-tile [tile]
+  ;(let [in (get-in organisms :decomposers :consumes)
+        ;out (get-in organisms :decomposers :excretes)]
+    ;;TODO
+    ;))
+;(defn decompose-world [world]
+  ;(for [row world]
+    ;(for [tile world]
+      ;(decompose-tile tile))))
 
-(defn update-plant [organism world]
-    ;TODO
-  )
+;(defn update-plant [organism world]
+    ;;TODO
+  ;)
 
-(defn update-herbivore [organism world]
-    ;TODO
-  )
+;(defn update-herbivore [organism world]
+    ;;TODO
+  ;)
 
-(defn update-carnivore [organism world]
-    ;TODO
-  )
+;(defn update-carnivore [organism world]
+    ;;TODO
+  ;)
 
-(defn update-organism [organism world]
-    ;TODO
-  )
+;(defn update-organism [organism world]
+    ;;TODO
+  ;)
