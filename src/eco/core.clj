@@ -28,22 +28,31 @@
   (q/background 0)
   (update-world state))
 
-(q/defsketch eco
-  :title "This... is Eco."
-  :size [r/window-w r/window-h]
+(defn -main [] 
+  (q/sketch
+     :title      "This... is Eco."
+     :size       [r/window-w r/window-h]
+     :setup      setup
+     :update     update
+     :draw       r/environment
+     :middleware [m/fun-mode]))
 
-  ; setup function called only once, during sketch initialization.
-  :setup setup
+;(q/defsketch eco
+  ;:title "This... is Eco."
+  ;:size [r/window-w r/window-h]
 
-  ; update is called on each iteration before draw is called.
-  ; It updates sketch state.
-  :update update
+  ;; setup function called only once, during sketch initialization.
+  ;:setup setup
 
-  ;;;; Draws all active overlays from among terrain, nutrients, and organisms.
-  ;;;; Will eventually allow user control of which overlays to draw.
-  :draw r/environment
+  ;; update is called on each iteration before draw is called.
+  ;; It updates sketch state.
+  ;:update update
 
-  ; This sketch uses functional-mode middleware.
-  ; Check quil wiki for more info about middlewares and particularly
-  ; fun-mode.
-  :middleware [m/fun-mode])
+  ;;;;; Draws all active overlays from among terrain, nutrients, and organisms.
+  ;;;;; Will eventually allow user control of which overlays to draw.
+  ;:draw r/environment
+
+  ;; This sketch uses functional-mode middleware.
+  ;; Check quil wiki for more info about middlewares and particularly
+  ;; fun-mode.
+  ;:middleware [m/fun-mode])
