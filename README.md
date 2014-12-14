@@ -1,8 +1,14 @@
 # eco
 
-A Quil sketch designed to ... well, that part is up to you.
+Eco will eventually be an ecology simulator created with Quil and Clojure.
+
+Currently it does not simulate anything, but we're working real hard on that.
+
+Our current model takes into account plants, herbivores, carnivores, and decomposers as they cycle various nutrients through the environment.
 
 ## Usage
+
+Leiningen - from project root at command line, `lein run` to get sketch going.
 
 LightTable - open `core.clj` and press `Ctrl+Shift+Enter` to evaluate the file.
 
